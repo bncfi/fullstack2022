@@ -2,26 +2,32 @@ import {useState, useEffect} from 'react'
 import axios from 'axios'
 
 
-const Weather = ({country, weatherData}) => {
-
+const Weather = ({country, weatherData,apikey, setWeatherData}) => {
+  /*
+  const hookWeather = () => {
+    const city = country.capital
+    console.log("city ", city)
+      axios
+      .get("https://api.openweathermap.org/data/2.5/weather?q="+city+"&appid="+apikey+"&units=metric")
+      .then(response => {
+        setWeatherData(response.data)
+    })
+  }
+  useEffect(hookWeather, [apikey,country, setWeatherData])
+  */
   console.log(weatherData)
   return(
     <div>
       <h1>Weather in {country.capital}</h1>
-      <p>temperature  Celcius</p>
+      <p>temperature {weatherData.main.temp}  Celcius</p>
+      <img alt={country.capital} src={"http://openweathermap.org/img/wn/"+weatherData.icon.weather[1]+".png"} />
+      <p>wind {weatherData.wind.speed} m/s</p>
     </div> 
   )
 }
 
 const Country = ({country, apikey, setWeatherData}) => {
 
-    const city = country.capital
-    axios
-      .get("https://api.openweathermap.org/data/2.5/weather?q="+city+"&appid="+apikey+"&units=metric")
-      .then(response => {
-        setWeatherData(response.data)
-      })
-  console.log("joo")
   return (
     <div>
       <h1>{country.name.common}</h1>
@@ -54,7 +60,6 @@ const FiltCountries = ({filteredCountryData, setCountryToShow, buttonHandleCount
       <p>Too many results</p>
     )
   }else if (filteredCountryData.length < 10 && filteredCountryData.length > 1) {
-    console.log("filtCount", filteredCountryData)
     return(
       filteredCountryData.map(country => <CountryOneLine key={country.name.common} country={country} buttonHandleCountry={buttonHandleCountry}/>)
     )
@@ -84,21 +89,19 @@ function App() {
       setCountries(response.data)
     })
   }
-
   useEffect(hookCountries,[])
-/*
-  if(countryToShow !== '') {
+
+  
+  const hookWeather = () => {
     const city = countryToShow.capital
-    const hook = (city,apikey, setWeatherData) => {
+    console.log("city ", city)
       axios
       .get("https://api.openweathermap.org/data/2.5/weather?q="+city+"&appid="+apikey+"&units=metric")
       .then(response => {
         setWeatherData(response.data)
-      })
-    }
-    useEffect(hook(city,apikey, setWeatherData), [])
+    })
   }
-  */
+  useEffect(hookWeather, [apikey,countryToShow])
 
   const inputHandleSearch = (event) => {
     const searchWord = event.target.value
@@ -120,7 +123,8 @@ function App() {
         search for country <input value={searchWord} onChange={inputHandleSearch}/>
         {countryToShow === ''
         ? <FiltCountries filteredCountryData={filteredCountryData} setCountryToShow={setCountryToShow} buttonHandleCountry={buttonHandleCountry} />
-        : <Country country={countryToShow} apikey={apikey} setWeatherData={setWeatherData}/>
+        : [<Country key={countryToShow} country={countryToShow} apikey={apikey} setWeatherData={setWeatherData}/>, 
+          <Weather key={countryToShow.capital} weatherData={weatherData} country={countryToShow} apikey={apikey} setWeatherData={setWeatherData}/>]
         }
       
     </div>
