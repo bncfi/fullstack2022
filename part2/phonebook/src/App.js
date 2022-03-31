@@ -1,15 +1,18 @@
 import { useState, useEffect } from 'react'
-import axios from 'axios'
 import PersonsAxios from './services/PersonsAxios'
 import Filter from './components/Filter'
 import PersonForm from './components/PersonForm'
 import Persons from './components/Persons'
+import NotificationError from './components/Notification'
+import NotificationSuccess from './components/NotificationSuccess'
 
 const App = () => {
   const [persons, setPersons] = useState([]) 
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [searchWord, setSearchWord] = useState('')
+  const [errorMessage, setErrorMessage] = useState(null)
+  const [successMessage, setSuccessMessage] = useState(null)
 
   const hook = () => {
     PersonsAxios.getAll()
@@ -39,17 +42,32 @@ const App = () => {
     if(personArray.length > 0) {
       if(window.confirm(`${contactObject.name} is already added to phonebook, replace the old number with the new one?`)) {
         PersonsAxios.updatePerson(contactObject, personArray[0].id)
-        setPersons(persons.map(person => {
-          if(person.name === contactObject.name) {
-            return contactObject
-          }else {
-            return person
-          }
-        }))
+        .then(updatedPerson => {
+          setPersons(persons.map(person => {
+            if(person.name === updatedPerson.name) {
+              return updatedPerson
+            }else {
+              return person
+            }
+          }))
+        })
+        .catch(error => {
+          console.log(error)
+          setErrorMessage(`Information of ${contactObject.name} has already been removed from server`)
+          setTimeout(()=>{
+            setErrorMessage(null)
+          },5000)
+        })
       }
     }else{
-      setPersons(persons.concat(contactObject))
       PersonsAxios.createPerson(contactObject)
+      .then(createdPerson => {
+        setPersons(persons.concat(createdPerson))
+        setSuccessMessage(`Added ${createdPerson.name}`)
+        setTimeout(() => {
+          setSuccessMessage(null)
+        },5000)
+      })
       setNewName('')
       setNewNumber('')
     }
@@ -66,6 +84,8 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+      <NotificationSuccess message={successMessage} />
+      <NotificationError message={errorMessage} />
       <Filter 
       searchWord={searchWord} 
       inputHandleSearch={inputHandleSearch} 
