@@ -38,9 +38,9 @@ beforeEach(async () => {
 test('three blogs are returned as json', () => {
   const request = api
     .get('/api/blogs')
-    .then((response) => console.log('huhuu', response.body))
+    .then((response) => expect(response.body).toHaveLength(initialBlogs.length))
     .catch((error) => console.log(error))
-  console.log(request)
+  return request
 })
 
 afterAll(() => {
