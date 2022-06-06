@@ -35,12 +35,17 @@ beforeEach(async () => {
   await blogObject.save()
 })
 
-test('three blogs are returned as json', () => {
+/*
   const request = api
     .get('/api/blogs')
     .then((response) => expect(response.body).toHaveLength(initialBlogs.length))
     .catch((error) => console.log(error))
   return request
+  */
+
+test('three blogs are returned as json', async () => {
+  const response = await api.get('api/blogs')
+  response.expect(response.body).toHaveLength(initialBlogs.length)
 })
 
 afterAll(() => {
