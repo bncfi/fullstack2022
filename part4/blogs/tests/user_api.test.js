@@ -20,23 +20,23 @@ describe('adding user to database', () => {
     await user.save()
   })
   test('adding user succeeds and returns 201', async () => {
-    const user = new User({
+    const user = {
       username: 'kirmo',
       name: 'kirmo kinuski',
       password: 'salainen',
-    })
+    }
 
-    const usersAtStart = await api.get('/api/users').body
+    const usersAtStart = await api.get('/api/users')
 
-    const savedUser = await api
+    await api
       .post('/api/users')
       .send(user)
       .expect(201)
       .expect('Content-Type', /application\/json/)
 
-    const usersAtEnd = await api.get('/api/users').body
-    console.log(usersAtEnd, usersAtStart)
-    expect(usersAtEnd).toHaveLenth(usersAtStart.length + 1)
+    const usersAtEnd = await api.get('/api/users')
+
+    expect(usersAtEnd.body).toHaveLength(usersAtStart.body.length + 1)
   })
 })
 
