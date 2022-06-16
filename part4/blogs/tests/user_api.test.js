@@ -14,7 +14,7 @@ describe('adding user to database', () => {
     const user = new User({
       username: 'root',
       name: 'mestari koodaaja',
-      passwordHash,
+      passwordhash: passwordHash,
     })
 
     await user.save()
@@ -37,6 +37,43 @@ describe('adding user to database', () => {
     const usersAtEnd = await api.get('/api/users')
 
     expect(usersAtEnd.body).toHaveLength(usersAtStart.body.length + 1)
+  })
+
+  test('adding already existing username returns 400', async () => {
+    const existingUser = {
+      username: 'root',
+      name: 'perus nortti',
+      password: 'tosisalainen',
+    }
+    await api.post('/api/users').send(existingUser).expect(400)
+  })
+
+  test('adding user with too short password returns 400', async () => {
+    const newUserTooShortPw = {
+      username: 'Joku bloggaaja',
+      name: 'Pirkko Hamalainen',
+      password: 'jo',
+    }
+
+    await api.post('/api/users').send(newUserTooShortPw).expect(400)
+  })
+
+  test('adding user with no name returns 400', async () => {
+    const userWithNoName = {
+      name: 'Pirkko Kekkuli',
+      password: 'juu',
+    }
+
+    await api.post('/api/users').send(userWithNoName).expect(400)
+  })
+
+  test('adding user with no passwordreturns 400', async () => {
+    const userWithNoPassword = {
+      username: 'pirre',
+      name: 'Pirkko Kekkuli',
+    }
+
+    await api.post('/api/users').send(userWithNoPassword).expect(400)
   })
 })
 
