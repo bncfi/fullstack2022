@@ -52,17 +52,26 @@ describe('api get', () => {
 describe('addition of a blog', () => {
   test('new blog can be added', async () => {
     const newBlog = {
-      title: 'Neljas',
+      title: 'testi tokenin kanssa',
       author: 'Mestari Kirjailija',
       url: 'dfas',
       likes: 7,
     }
 
-    await api.post('/api/blogs').send(newBlog)
+    const userRoot = { username: 'root', password: 'sekret' }
+    const userRootLogin = await api.post('/api/login').send(userRoot)
+
+    await api
+      .post('/api/blogs')
+      .set('authorization', 'bearer ' + userRootLogin.body.token)
+      .send(newBlog)
+
     const getResponse = await api.get('/api/blogs')
 
     expect(getResponse.body).toHaveLength(initialBlogs.length + 1)
-    expect(getResponse.body.map((blog) => blog.title)).toContain('Neljas')
+    expect(getResponse.body.map((blog) => blog.title)).toContain(
+      'testi tokenin kanssa'
+    )
   })
 
   test('new blog without likes default to zero', async () => {
@@ -71,8 +80,13 @@ describe('addition of a blog', () => {
       author: 'Mika Waltari',
       url: 'eee',
     }
+    const userRoot = { username: 'root', password: 'sekret' }
+    const userRootLogin = await api.post('/api/login').send(userRoot)
 
-    const postResponse = await api.post('/api/blogs').send(newBlog)
+    const postResponse = await api
+      .post('/api/blogs')
+      .set('authorization', 'bearer ' + userRootLogin.body.token)
+      .send(newBlog)
     expect(postResponse.body.likes).toBe(0)
   })
 
@@ -86,24 +100,96 @@ describe('addition of a blog', () => {
       author: 'Mika Waltari',
     }
 
-    await api.post('/api/blogs').send(newBlogWithoutTitle).expect(400)
-    await api.post('/api/blogs').send(newBlogWithoutUrl).expect(400)
+    const userRoot = { username: 'root', password: 'sekret' }
+    const userRootLogin = await api.post('/api/login').send(userRoot)
+
+    await api
+      .post('/api/blogs')
+      .set('authorization', 'bearer ' + userRootLogin.body.token)
+      .send(newBlogWithoutTitle)
+      .expect(400)
+    await api
+      .post('/api/blogs')
+      .set('authorization', 'bearer ' + userRootLogin.body.token)
+      .send(newBlogWithoutUrl)
+      .expect(400)
+  })
+  test('new blog without token returns 401', async () => {
+    const newBlog = {
+      title: 'testi ilman token',
+      author: 'Mestari Kirjailija',
+      url: 'dfas',
+      likes: 7,
+    }
+
+    await api
+      .post('/api/blogs')
+      .set('authorization', 'bearer ')
+      .send(newBlog)
+      .expect(401)
   })
 })
 
 describe('deletion of a blog', () => {
   test('deletion of a single blog returns 204', async () => {
     const blogsAtStart = await api.get('/api/blogs')
-    const blogToDelete = blogsAtStart.body[0]
+    //const blogToDelete = blogsAtStart.body[0]
 
-    await api.delete(`/api/blogs/${blogToDelete.id}`).expect(204)
+    const newBlog = {
+      title: 'testi tokenin kanssa',
+      author: 'Mestari Kirjailija',
+      url: 'dfas',
+      likes: 7,
+    }
+
+    const userRoot = { username: 'root', password: 'sekret' }
+    const userRootLogin = await api.post('/api/login').send(userRoot)
+
+    const postResponse = await api
+      .post('/api/blogs')
+      .set('authorization', 'bearer ' + userRootLogin.body.token)
+      .send(newBlog)
+
+    const blogToDelete = postResponse.body
+
+    await api
+      .delete(`/api/blogs/${blogToDelete.id}`)
+      .set('authorization', 'bearer ' + userRootLogin.body.token)
+      .expect(204)
 
     const blogsAtEnd = await api.get('/api/blogs')
-    expect(blogsAtEnd.body).toHaveLength(blogsAtStart.body.length - 1)
+    expect(blogsAtEnd.body).toHaveLength(blogsAtStart.body.length)
   })
 
   test('deletion of a wrong id returns 400', async () => {
-    await api.delete('/api/blogs/300').expect(400)
+    const newBlog = {
+      title: 'testi tokenin kanssa',
+      author: 'Mestari Kirjailija',
+      url: 'dfas',
+      likes: 7,
+    }
+
+    const userRoot = { username: 'root', password: 'sekret' }
+    const userRootLogin = await api.post('/api/login').send(userRoot)
+
+    const postResponse = await api
+      .post('/api/blogs')
+      .set('authorization', 'bearer ' + userRootLogin.body.token)
+      .send(newBlog)
+
+    const blogToDelete = postResponse.body
+
+    await api
+      .delete('/api/blogs/300')
+      .set('authorization', 'bearer ' + userRootLogin.body.token)
+      .expect(400)
+  })
+
+  test('deletion without authorization returns 401', async () => {
+    await api
+      .delete('/api/blogs/300')
+      .set('authorization', 'bearer ')
+      .expect(401)
   })
 })
 
