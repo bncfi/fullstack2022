@@ -3,7 +3,8 @@ import Blog from './components/Blog'
 import Login from './components/Login'
 import Logout from './components/Logout'
 import Newblog from './components/Newblog'
-import Notification from './components/Notification'
+import NotificationError from './components/NotificationError'
+import NotificationSuccess from './components/NotificationSuccess'
 import blogService from './services/blogs'
 import loginService from './services/login'
 
@@ -12,6 +13,7 @@ const App = () => {
   const [password, setPassword] = useState('')
   const [username, setUsername] = useState('')
   const [errorMessage, setErrorMessage] = useState(null)
+  const [successMessage, setSuccessMessage] = useState(null)
   const [user, setUser] = useState(null)
   const [newBlog, setNewblog] = useState({
     title: null,
@@ -45,7 +47,7 @@ const App = () => {
       setPassword('')
     } catch (error) {
       console.log(error)
-      setErrorMessage('Wrong credentials')
+      setErrorMessage('Wrong username or password')
       setTimeout(() => {
         setErrorMessage(null)
       }, 5000)
@@ -62,21 +64,34 @@ const App = () => {
 
     try {
       const response = await blogService.create(newBlog)
-      setBlogs(blogs.concat(response))
+      const newBlogs = await blogService.getAll()
+      setBlogs(newBlogs)
+      setSuccessMessage(
+        `New blog ${response.title} by ${response.author} was added`
+      )
+      setTimeout(() => {
+        setSuccessMessage(null)
+      }, 5000)
+      /*
       setNewblog({
         title: null,
         author: null,
         url: null,
-      })
+      })*/
       console.log(response)
     } catch (error) {
+      setErrorMessage(error.message)
+      setTimeout(() => {
+        setErrorMessage(null)
+      }, 5000)
       console.log(error.message)
     }
   }
 
   return (
     <div>
-      <Notification message={errorMessage} />
+      <NotificationError message={errorMessage} />
+      <NotificationSuccess message={successMessage} />
 
       {user === null ? (
         <Login
@@ -96,11 +111,12 @@ const App = () => {
             setNewblog={setNewblog}
           />
           <h2>blogs</h2>
-          {blogs.map((blog) => {
-            if (blog.user.username === user.username) {
-              return <Blog key={blog.id} blog={blog} />
-            }
-          })}
+
+          {blogs
+            .filter((blog) => blog.user.username === user.username)
+            .map((filteredBlog) => (
+              <Blog key={filteredBlog.id} blog={filteredBlog} />
+            ))}
         </div>
       )}
     </div>

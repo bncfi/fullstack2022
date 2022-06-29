@@ -16,9 +16,8 @@ const create = async (newBlog) => {
   const config = {
     headers: { Authorization: token },
   }
-
-  const response = axios.post(baseUrl, newBlog, config)
-  return response
+  const response = await axios.post(baseUrl, newBlog, config)
+  return response.data
 }
-
+// eslint-disable-next-line
 export default { setToken, getAll, create }
