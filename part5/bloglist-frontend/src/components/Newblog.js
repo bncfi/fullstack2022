@@ -1,4 +1,17 @@
-const Newblog = ({ handleNewblog, newBlog, setNewblog }) => {
+import { useState } from 'react'
+
+const Newblog = ({ createBlog }) => {
+  const [newBlog, setNewblog] = useState({
+    title: null,
+    author: null,
+    url: null,
+  })
+
+  const handleNewblog = async (event) => {
+    event.preventDefault()
+    createBlog(newBlog)
+  }
+
   return (
     <div>
       <h2>Create new</h2>

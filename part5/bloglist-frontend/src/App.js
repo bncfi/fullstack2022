@@ -3,6 +3,7 @@ import Blog from './components/Blog'
 import Login from './components/Login'
 import Logout from './components/Logout'
 import Newblog from './components/Newblog'
+import Togglable from './components/Togglable'
 import NotificationError from './components/NotificationError'
 import NotificationSuccess from './components/NotificationSuccess'
 import blogService from './services/blogs'
@@ -15,11 +16,6 @@ const App = () => {
   const [errorMessage, setErrorMessage] = useState(null)
   const [successMessage, setSuccessMessage] = useState(null)
   const [user, setUser] = useState(null)
-  const [newBlog, setNewblog] = useState({
-    title: null,
-    author: null,
-    url: null,
-  })
 
   useEffect(() => {
     blogService.getAll().then((blogs) => setBlogs(blogs))
@@ -58,10 +54,9 @@ const App = () => {
     window.localStorage.clear()
     setUser(null)
   }
-
+  /*
   const handleNewblog = async (event) => {
     event.preventDefault()
-
     try {
       const response = await blogService.create(newBlog)
       const newBlogs = await blogService.getAll()
@@ -72,12 +67,39 @@ const App = () => {
       setTimeout(() => {
         setSuccessMessage(null)
       }, 5000)
-      /*
-      setNewblog({
-        title: null,
-        author: null,
-        url: null,
-      })*/
+    } catch (error) {
+      setErrorMessage(error.message)
+      setTimeout(() => {
+        setErrorMessage(null)
+      }, 5000)
+      console.log(error.message)
+    }
+  }
+*/
+  const createBlog = async (newBlog) => {
+    try {
+      const response = await blogService.create(newBlog)
+      const newBlogs = await blogService.getAll()
+      setBlogs(newBlogs)
+      setSuccessMessage(
+        `New blog ${response.title} by ${response.author} was added`
+      )
+      setTimeout(() => {
+        setSuccessMessage(null)
+      }, 5000)
+    } catch (error) {
+      setErrorMessage(error.message)
+      setTimeout(() => {
+        setErrorMessage(null)
+      }, 5000)
+      console.log(error.message)
+    }
+  }
+
+  const updateBlog = async (id, updatedBlog) => {
+    try {
+      const response = await blogService.update(id, updatedBlog)
+      setBlogs(blogs.map((blog) => (blog.id !== id ? blog : response)))
       console.log(response)
     } catch (error) {
       setErrorMessage(error.message)
@@ -105,17 +127,22 @@ const App = () => {
         <div>
           <p>Logged in as {user.name}</p>
           <Logout handleLogout={handleLogout} />
-          <Newblog
-            handleNewblog={handleNewblog}
-            newBlog={newBlog}
-            setNewblog={setNewblog}
-          />
+          <Togglable
+            buttonLabelToShow="create new blog"
+            buttonLabelToHide="cancel"
+          >
+            <Newblog createBlog={createBlog} />
+          </Togglable>
           <h2>blogs</h2>
 
           {blogs
             .filter((blog) => blog.user.username === user.username)
             .map((filteredBlog) => (
-              <Blog key={filteredBlog.id} blog={filteredBlog} />
+              <Blog
+                key={filteredBlog.id}
+                blog={filteredBlog}
+                updateBlog={updateBlog}
+              />
             ))}
         </div>
       )}
