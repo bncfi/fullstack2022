@@ -36,11 +36,12 @@ const Blog = ({ blog, updateBlog, user, deleteBlog }) => {
   const handleDelete = () => {
     deleteBlog(blog.id)
   }
-
+  //<div style={showWhenTrue}>{blog.author}</div>
   return (
     <div style={blogStyle}>
+      <div>{blog.title}</div>
+      <div>{blog.author}</div>
       <div>
-        {blog.title}
         <button style={hideWhenTrue} onClick={toggleShow}>
           show
         </button>
@@ -48,7 +49,7 @@ const Blog = ({ blog, updateBlog, user, deleteBlog }) => {
           hide
         </button>
       </div>
-      <div style={showWhenTrue}>{blog.author}</div>
+
       <div style={showWhenTrue}>{blog.url}</div>
       <div style={showWhenTrue}>
         {blog.likes}
