@@ -81,14 +81,12 @@ const App = () => {
   const updateBlog = async (id, updatedBlog) => {
     try {
       await blogService.update(id, updatedBlog)
-      //setBlogs(blogs.map((blog) => (blog.id !== id ? blog : response)))
+
       setBlogs(
         blogs.map((blog) =>
           blog.id !== id ? blog : { ...blog, likes: blog.likes + 1 }
         )
       )
-      //const newBlogs = await blogService.getAll()
-      //setBlogs(newBlogs)
     } catch (error) {
       setErrorMessage(error.message)
       setTimeout(() => {

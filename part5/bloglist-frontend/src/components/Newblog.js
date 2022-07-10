@@ -10,6 +10,7 @@ const Newblog = ({ createBlog }) => {
   const handleNewblog = async (event) => {
     event.preventDefault()
     createBlog(newBlog)
+    event.target.reset()
   }
 
   return (
@@ -21,6 +22,7 @@ const Newblog = ({ createBlog }) => {
           <input
             type="text"
             name="title"
+            id="title"
             placeholder="title"
             onChange={({ target }) =>
               setNewblog({ ...newBlog, title: target.value })
@@ -32,6 +34,7 @@ const Newblog = ({ createBlog }) => {
           <input
             type="text"
             name="author"
+            id="author"
             placeholder="author"
             onChange={({ target }) =>
               setNewblog({ ...newBlog, author: target.value })
@@ -43,13 +46,16 @@ const Newblog = ({ createBlog }) => {
           <input
             type="text"
             name="url"
+            id="url"
             placeholder="url"
             onChange={({ target }) =>
               setNewblog({ ...newBlog, url: target.value })
             }
           />
         </div>
-        <button type="submit">save</button>
+        <button id="submit-button" type="submit">
+          save
+        </button>
       </form>
     </div>
   )
