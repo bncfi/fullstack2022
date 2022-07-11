@@ -44,7 +44,6 @@ describe('Blog app', function () {
     })
 
     it('A blog can be created', function () {
-      cy.wait(500)
       cy.contains('create new blog').click()
       cy.get('#title').type('testi blogi')
       cy.get('#author').type('kirmo koodaaja')
@@ -114,7 +113,7 @@ describe('Blog app', function () {
       cy.get('.blog').eq(0).contains('button', 'show').click()
       cy.get('.like-button').filter(':visible').click()
       cy.contains('hide').click()
-      cy.wait(500)
+      cy.wait(1000)
       cy.get('.blog').eq(1).contains('button', 'show').click()
       cy.get('.like-button').filter(':visible').click()
       cy.wait(500)
