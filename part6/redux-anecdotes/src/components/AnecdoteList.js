@@ -16,23 +16,14 @@ const AnecdoteList = (props) => {
 
     console.log('vote', anecdote.id)
   }
-  console.log(anecdotes[0].content)
-  /*
-  {anecdotes.map((anecdote) => (
-    <div key={anecdote.id}>
-      <div>{anecdote.content}</div>
-      <div>
-        has {anecdote.votes}
-        <button onClick={() => vote(anecdote)}>vote</button>
-      </div>
-    </div>
-  ))}
-*/
 
   return (
     <div>
-      {anecdotes.filter((anecdote) =>
-        anecdote.content.toLowerCase().includes(filterState.toLowerCase())(
+      {anecdotes
+        .filter((anecdote) =>
+          anecdote.content.toLowerCase().includes(filterState.toLowerCase())
+        )
+        .map((anecdote) => (
           <div key={anecdote.id}>
             <div>{anecdote.content}</div>
             <div>
@@ -40,8 +31,7 @@ const AnecdoteList = (props) => {
               <button onClick={() => vote(anecdote)}>vote</button>
             </div>
           </div>
-        )
-      )}
+        ))}
     </div>
   )
 }
