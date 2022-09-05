@@ -1,5 +1,4 @@
 import { useDispatch, useSelector } from 'react-redux'
-import { setNotification } from '../reducers/notificationReducer'
 import { updateAnecdote } from '../reducers/anecdoteReducer'
 import { notificationSetter } from '../reducers/notificationReducer'
 

@@ -4,6 +4,8 @@ const notificationAtStart = null
 
 const initialState = notificationAtStart
 
+let timeOutId = null
+
 const notificationSlice = createSlice({
   name: 'notifications',
   initialState,
@@ -18,7 +20,10 @@ const notificationSlice = createSlice({
 export const notificationSetter = (notification) => {
   return (dispatch) => {
     dispatch(setNotification(notification.message))
-    setTimeout(() => {
+    if (timeOutId) {
+      clearTimeout(timeOutId)
+    }
+    timeOutId = setTimeout(() => {
       dispatch(setNotification(null))
     }, notification.time * 1000)
   }
