@@ -92,8 +92,6 @@ const CreateNew = (props) => {
   const content = useField('text')
   const author = useField('text')
   const info = useField('text')
-  const reset = useField('reset')
-  const submit = useField('submit')
 
   const handleSubmit = (event) => {
     event.preventDefault()
@@ -129,8 +127,8 @@ const CreateNew = (props) => {
           url for more info
           <input {...info} />
         </div>
-        <input {...submit} value="create" />
-        <input {...reset} value="reset" />
+        <input type="submit" value="create" />
+        <input type="reset" value="reset" />
       </form>
     </div>
   )
