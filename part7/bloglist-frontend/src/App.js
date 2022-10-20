@@ -8,16 +8,20 @@ import NotificationError from './components/NotificationError'
 import NotificationSuccess from './components/NotificationSuccess'
 import blogService from './services/blogs'
 import loginService from './services/login'
+import { useDispatch } from 'react-redux'
+import { setNotification } from './reducers/notificationReducer'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
   const [password, setPassword] = useState('')
   const [username, setUsername] = useState('')
   const [errorMessage, setErrorMessage] = useState(null)
-  const [successMessage, setSuccessMessage] = useState(null)
+  //const [successMessage, setSuccessMessage] = useState(null)
   const [user, setUser] = useState(null)
 
   const blogFormRef = useRef()
+
+  const dispatch = useDispatch()
 
   useEffect(() => {
     blogService.getAll().then((blogs) => setBlogs(blogs))
@@ -62,13 +66,13 @@ const App = () => {
       const response = await blogService.create(newBlog)
       const newBlogs = await blogService.getAll()
       setBlogs(newBlogs)
-      setSuccessMessage(
-        `New blog ${response.title} by ${response.author} was added`
+      dispatch(
+        setNotification({
+          message: `New blog ${response.title} by ${response.author} was added`,
+          time: 2,
+        })
       )
       blogFormRef.current.toggleVisibility()
-      setTimeout(() => {
-        setSuccessMessage(null)
-      }, 5000)
     } catch (error) {
       setErrorMessage(error.message)
       setTimeout(() => {
@@ -112,7 +116,7 @@ const App = () => {
   return (
     <div>
       <NotificationError message={errorMessage} />
-      <NotificationSuccess message={successMessage} />
+      <NotificationSuccess />
 
       {user === null ? (
         <Login

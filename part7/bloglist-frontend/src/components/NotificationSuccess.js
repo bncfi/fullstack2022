@@ -1,4 +1,7 @@
-const NotificationSuccess = ({ message }) => {
+import { useSelector } from 'react-redux'
+
+const NotificationSuccess = () => {
+  const notification = useSelector((state) => state.notification)
   const SuccessStyle = {
     color: 'green',
     background: 'lightgrey',
@@ -10,11 +13,10 @@ const NotificationSuccess = ({ message }) => {
     padding: '10',
     marginBottom: 10,
   }
-  if (message === null) {
-    return null
-  } else {
-    return <div style={SuccessStyle}>{message}</div>
+  if (notification) {
+    return <div style={SuccessStyle}>{notification.message}</div>
   }
+  return <div></div>
 }
 
 export default NotificationSuccess
