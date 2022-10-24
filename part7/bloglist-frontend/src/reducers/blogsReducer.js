@@ -3,11 +3,10 @@ import blogsService from '../services/blogs'
 
 const blogsSlice = createSlice({
   name: 'blogs',
-  state: [],
+  initialState: [],
   reducers: {
     setBlogs(state, action) {
-      state = action.payload
-      return state
+      return action.payload
     },
     appendBlog(state, action) {
       state.push(action.payload)

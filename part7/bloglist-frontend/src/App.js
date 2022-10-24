@@ -8,12 +8,12 @@ import NotificationError from './components/NotificationError'
 import NotificationSuccess from './components/NotificationSuccess'
 import blogService from './services/blogs'
 import loginService from './services/login'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { notificationSetter } from './reducers/notificationReducer'
 import { initializeBlogs, createBlogAction } from './reducers/blogsReducer'
 
 const App = () => {
-  const [blogs, setBlogs] = useState([])
+  //const [blogs, setBlogs] = useState([])
   const [password, setPassword] = useState('')
   const [username, setUsername] = useState('')
   const [errorMessage, setErrorMessage] = useState(null)
@@ -23,10 +23,12 @@ const App = () => {
   const blogFormRef = useRef()
 
   const dispatch = useDispatch()
-
+  const blogs = useSelector((state) => state.blogs)
+  console.log(blogs)
   useEffect(() => {
     //blogService.getAll().then((blogs) => setBlogs(blogs))
     dispatch(initializeBlogs())
+    console.log('dispatch: ', blogs)
   }, [dispatch])
 
   useEffect(() => {
@@ -84,7 +86,7 @@ const App = () => {
       console.log(error.message)
     }
   }
-
+  /*
   const updateBlog = async (id, updatedBlog) => {
     try {
       await blogService.update(id, updatedBlog)
@@ -115,7 +117,7 @@ const App = () => {
       console.log(error.message)
     }
   }
-
+*/
   return (
     <div>
       <NotificationError message={errorMessage} />
@@ -145,13 +147,7 @@ const App = () => {
           {blogs
             .sort((a, b) => b.likes - a.likes)
             .map((filteredBlog) => (
-              <Blog
-                key={filteredBlog.id}
-                blog={filteredBlog}
-                updateBlog={updateBlog}
-                user={user}
-                deleteBlog={deleteBlog}
-              />
+              <Blog key={filteredBlog.id} blog={filteredBlog} user={user} />
             ))}
         </div>
       )}
