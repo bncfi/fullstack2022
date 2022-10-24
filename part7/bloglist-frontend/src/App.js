@@ -9,7 +9,8 @@ import NotificationSuccess from './components/NotificationSuccess'
 import blogService from './services/blogs'
 import loginService from './services/login'
 import { useDispatch } from 'react-redux'
-import { setNotification } from './reducers/notificationReducer'
+import { notificationSetter } from './reducers/notificationReducer'
+import { initializeBlogs, createBlogAction } from './reducers/blogsReducer'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
@@ -24,8 +25,9 @@ const App = () => {
   const dispatch = useDispatch()
 
   useEffect(() => {
-    blogService.getAll().then((blogs) => setBlogs(blogs))
-  }, [])
+    //blogService.getAll().then((blogs) => setBlogs(blogs))
+    dispatch(initializeBlogs())
+  }, [dispatch])
 
   useEffect(() => {
     const loggedInUserJSON = window.localStorage.getItem('loggedBlogUser')
@@ -63,12 +65,13 @@ const App = () => {
 
   const createBlog = async (newBlog) => {
     try {
-      const response = await blogService.create(newBlog)
-      const newBlogs = await blogService.getAll()
-      setBlogs(newBlogs)
+      //const response = await blogService.create(newBlog)
+      //const newBlogs = await blogService.getAll()
+      //setBlogs(newBlogs)
+      createBlogAction(newBlog)
       dispatch(
-        setNotification({
-          message: `New blog ${response.title} by ${response.author} was added`,
+        notificationSetter({
+          message: `New blog ${newBlog.title} by ${newBlog.author} was added`,
           time: 2,
         })
       )

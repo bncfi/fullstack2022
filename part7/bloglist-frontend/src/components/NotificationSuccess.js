@@ -13,8 +13,9 @@ const NotificationSuccess = () => {
     padding: '10',
     marginBottom: 10,
   }
+
   if (notification) {
-    return <div style={SuccessStyle}>{notification.message}</div>
+    return <div style={SuccessStyle}>{notification}</div>
   }
   return <div></div>
 }
