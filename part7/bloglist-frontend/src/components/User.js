@@ -1,10 +1,14 @@
+import Bloglist from './Bloglist'
+
 const User = ({ userinfo }) => {
-  console.log(userinfo)
+  if (!userinfo) {
+    return null
+  }
   return (
     <div>
-      {userinfo.blogs.map((blog) => {
-        return <div key={blog.id}>{blog.title}</div>
-      })}
+      <h2>{userinfo.username}</h2>
+      <h4>added blogs:</h4>
+      <Bloglist blogs={[...userinfo.blogs].sort((a, b) => b.likes - a.likes)} />
     </div>
   )
 }

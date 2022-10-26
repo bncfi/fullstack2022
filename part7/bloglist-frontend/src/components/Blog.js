@@ -3,11 +3,16 @@ import { useState } from 'react'
 const Blog = ({ blog, updateBlog, user, deleteBlog }) => {
   const [showAll, setShowAll] = useState(false)
 
+  console.log('bloggis ', user.username)
+
   const toggleShow = () => {
     setShowAll(!showAll)
   }
   const showWhenTrue = { display: showAll ? '' : 'none' }
   const hideWhenTrue = { display: showAll ? 'none' : '' }
+  console.log(user.username)
+  console.log(blog)
+
   const whenLogged = {
     display: blog.user.username === user.username ? '' : 'none',
   }
@@ -35,7 +40,7 @@ const Blog = ({ blog, updateBlog, user, deleteBlog }) => {
   const handleDelete = () => {
     deleteBlog(blog.id)
   }
-  //<div style={showWhenTrue}>{blog.author}</div>
+
   return (
     <div className="blog" style={blogStyle}>
       <div>{blog.title}</div>

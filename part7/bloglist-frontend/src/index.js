@@ -15,7 +15,7 @@ const store = configureStore({
     success: successReducer,
     error: errorReducer,
     blogs: blogsReducer,
-    users: usersReducer,
+    loggedInUser: usersReducer,
     allUsers: allusersReducer,
   },
 })

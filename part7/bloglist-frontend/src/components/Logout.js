@@ -1,8 +1,16 @@
-const Logout = ({ handleLogout }) => {
+import { useDispatch } from 'react-redux'
+import { setUser } from '../reducers/usersReducer'
+
+const Logout = () => {
+  const dispatch = useDispatch()
+  const handleLogout = () => {
+    window.localStorage.clear()
+    dispatch(setUser(null))
+  }
   return (
-    <div>
+    <>
       <button onClick={handleLogout}>Log out</button>
-    </div>
+    </>
   )
 }
 

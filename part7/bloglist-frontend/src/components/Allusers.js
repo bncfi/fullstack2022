@@ -9,7 +9,6 @@ const Allusers = () => {
   const dispatch = useDispatch()
   useEffect(() => {
     dispatch(initializeUsers())
-    console.log('dispatch users: ', users)
   }, [dispatch])
   return (
     <div>
@@ -23,7 +22,6 @@ const Allusers = () => {
           return (
             <tr key={user.id}>
               <td>
-                {user.id}
                 <Link to={`/users/${user.id}`}> {user.username} </Link>
               </td>
               <td>{user.blogs.length}</td>
