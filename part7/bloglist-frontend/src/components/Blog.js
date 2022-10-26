@@ -6,7 +6,6 @@ const Blog = ({ blog, updateBlog, user, deleteBlog }) => {
   const toggleShow = () => {
     setShowAll(!showAll)
   }
-
   const showWhenTrue = { display: showAll ? '' : 'none' }
   const hideWhenTrue = { display: showAll ? 'none' : '' }
   const whenLogged = {

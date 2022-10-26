@@ -1,3 +1,4 @@
+// eslint-disable-next-line no-undef
 module.exports = {
   env: {
     browser: true,
@@ -26,19 +27,10 @@ module.exports = {
     'no-console': 0,
     'react/prop-types': 0,
     'react/react-in-jsx-scope': 'off',
-    /*
-    'import/no-anonymous-default-export': [
-      'error',
-      {
-        allowArray: false,
-        allowArrowFunction: false,
-        allowAnonymousClass: false,
-        allowAnonymousFunction: false,
-        allowCallExpression: true, // The true value here is for backward compatibility
-        allowLiteral: false,
-        allowObject: true,
-      },
-    ],*/
+    'no-unused-vars': [
+      'off',
+      { vars: 'all', args: 'after-used', ignoreRestSiblings: false },
+    ],
   },
   settings: {
     react: {

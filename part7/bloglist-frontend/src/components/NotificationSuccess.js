@@ -1,7 +1,7 @@
 import { useSelector } from 'react-redux'
 
 const NotificationSuccess = () => {
-  const notification = useSelector((state) => state.notification)
+  const notification = useSelector((state) => state.success)
   const SuccessStyle = {
     color: 'green',
     background: 'lightgrey',
