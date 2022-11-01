@@ -69,7 +69,7 @@ blogsRouter.put('/:id', async (request, response) => {
 
 blogsRouter.post('/:id/comments', async (request, response) => {
   const updatedComments = request.body
-
+  console.log('blogsRouter ', updatedComments)
   const updatedBlog = await Blog.findByIdAndUpdate(
     request.params.id,
     { $push: { comments: updatedComments.comment } },

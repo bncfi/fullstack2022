@@ -23,14 +23,14 @@ const blogsSlice = createSlice({
       return state.filter((blog) => blog.id !== action.payload)
     },
     commentBlog(state, action) {
-      console.log(action.payload)
-      /*
+      console.log('commentBlog ', action.payload)
+
       return state.map((blog) => {
         if (blog.id === action.payload.id) {
           return { ...blog, comments: action.payload.comments }
         }
         return blog
-      })*/
+      })
     },
   },
 })
@@ -68,7 +68,6 @@ export const deleteBlogAction = (id) => {
 }
 
 export const commentBlogAction = (id, newComment) => {
-  console.log('toimiiko')
   return async (dispatch) => {
     const updatedBlog = await blogsService.addComment(id, newComment)
     dispatch(commentBlog(updatedBlog))

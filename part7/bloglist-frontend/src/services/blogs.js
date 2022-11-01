@@ -34,7 +34,7 @@ const deleteBlog = async (id) => {
 }
 
 const addComment = async (id, newComment) => {
-  console.log('toimiiko services')
+  console.log('services ', newComment)
   const response = await axios.post(
     baseUrl + '/' + id + '/comments',
     newComment

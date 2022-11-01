@@ -12,7 +12,6 @@ const Singleblog = ({ blog }) => {
       dispatch(errorSetter({ message: error.messsage, time: 5 }))
     }
   }
-  console.log(blog)
 
   const handleLike = () => {
     const updatedBlog = {

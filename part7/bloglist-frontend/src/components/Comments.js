@@ -6,10 +6,9 @@ const Comments = ({ blog }) => {
   const [comment, setComment] = useState('')
 
   const dispatch = useDispatch()
-  console.log('moi , blog id ', blog.id, 'kommentti ', comment)
   const handleComment = async (event) => {
     try {
-      event.preveventDefault()
+      event.preventDefault()
       dispatch(commentBlogAction(blog.id, comment))
       setComment('')
     } catch (error) {
