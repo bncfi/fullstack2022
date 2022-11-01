@@ -5,16 +5,9 @@ import blogService from '../services/blogs'
 import { useDispatch } from 'react-redux'
 import { setUser } from '../reducers/usersReducer'
 import { errorSetter } from '../reducers/errorReducer'
+import { Button } from '../styles/Styles'
 
 const Login = () => {
-  /*
-  username,
-  password,
-  setUsername,
-  setPassword,
-  handleLogin,
-  */
-
   const [password, setPassword] = useState('')
   const [username, setUsername] = useState('')
 
@@ -63,9 +56,9 @@ const Login = () => {
             onChange={({ target }) => setPassword(target.value)}
           />
         </div>
-        <button id="login-button" type="submit">
+        <Button id="login-button" type="submit">
           login
-        </button>
+        </Button>
       </form>
     </div>
   )

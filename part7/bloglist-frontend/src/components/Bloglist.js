@@ -6,15 +6,9 @@ import { successSetter } from '../reducers/successReducer'
 import { createBlogAction } from '../reducers/blogsReducer'
 import { errorSetter } from '../reducers/errorReducer'
 import { useRef } from 'react'
+import { Tablediv } from '../styles/Styles'
 
 const Bloglist = ({ blogs }) => {
-  const blogStyle = {
-    paddingTop: 10,
-    paddingLeft: 2,
-    border: 'solid',
-    borderWidth: 1,
-    marginBottom: 5,
-  }
   const blogFormRef = useRef()
   const dispatch = useDispatch()
   const loggedInUser = useSelector((state) => state.loggedInUser)
@@ -49,11 +43,11 @@ const Bloglist = ({ blogs }) => {
       )}
       <div>Number of blogs: {blogs.length}</div>
       {blogs.map((blog) => (
-        <div key={blog.id} style={blogStyle}>
+        <Tablediv key={blog.id}>
           <Link to={`/blogs/${blog.id}`}>
             {blog.title} by {blog.author}
           </Link>
-        </div>
+        </Tablediv>
       ))}
     </div>
   )

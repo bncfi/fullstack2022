@@ -1,5 +1,6 @@
 import { useDispatch } from 'react-redux'
 import { setUser } from '../reducers/usersReducer'
+import { Button } from '../styles/Styles'
 
 const Logout = () => {
   const dispatch = useDispatch()
@@ -9,7 +10,7 @@ const Logout = () => {
   }
   return (
     <>
-      <button onClick={handleLogout}>Log out</button>
+      <Button onClick={handleLogout}>Log out</Button>
     </>
   )
 }

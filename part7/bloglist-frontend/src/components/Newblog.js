@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { Button } from '../styles/Styles'
 
 const Newblog = ({ createBlog }) => {
   const [newBlog, setNewblog] = useState({
@@ -53,9 +54,9 @@ const Newblog = ({ createBlog }) => {
             }
           />
         </div>
-        <button id="submit-button" type="submit">
+        <Button id="submit-button" type="submit">
           save
-        </button>
+        </Button>
       </form>
     </div>
   )

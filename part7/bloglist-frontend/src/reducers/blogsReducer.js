@@ -23,8 +23,6 @@ const blogsSlice = createSlice({
       return state.filter((blog) => blog.id !== action.payload)
     },
     commentBlog(state, action) {
-      console.log('commentBlog ', action.payload)
-
       return state.map((blog) => {
         if (blog.id === action.payload.id) {
           return { ...blog, comments: action.payload.comments }
@@ -56,7 +54,6 @@ export const updateBlogAction = (id, updatedBlog) => {
   return async (dispatch) => {
     await blogsService.update(id, updatedBlog)
     dispatch(likeBlog(updatedBlog))
-    console.log('action: ', updatedBlog)
   }
 }
 

@@ -8,22 +8,18 @@ import blogService from './services/blogs'
 import { useDispatch, useSelector } from 'react-redux'
 import { initializeBlogs } from './reducers/blogsReducer'
 import { setUser } from './reducers/usersReducer'
-import { Routes, Route, useMatch, Link, Navigate } from 'react-router-dom'
+import { Routes, Route, useMatch, Navigate } from 'react-router-dom'
 import User from './components/User'
 import Singleblog from './components/Singleblog'
 import Bloglist from './components/Bloglist'
 import Home from './components/Home'
+import { Navbar, NavbarLink } from './styles/Styles'
 
 const App = () => {
-  const padding = {
-    padding: 5,
-  }
-
   const dispatch = useDispatch()
   const blogs = useSelector((state) => state.blogs)
   const loggedInUser = useSelector((state) => state.loggedInUser)
   const users = useSelector((state) => state.allUsers)
-  console.log('blogs length', blogs.length)
 
   const matchUser = useMatch('/users/:id')
   const user = matchUser
@@ -52,26 +48,18 @@ const App = () => {
     <div>
       <NotificationError />
       <NotificationSuccess />
-      <div>
-        <Link style={padding} to="/">
-          home
-        </Link>
-        <Link style={padding} to="/blogs">
-          blogs
-        </Link>
-        <Link style={padding} to="/users">
-          users
-        </Link>
+      <Navbar>
+        <NavbarLink to="/">home</NavbarLink>
+        <NavbarLink to="/blogs">blogs</NavbarLink>
+        <NavbarLink to="/users">users</NavbarLink>
         {loggedInUser ? (
           <>
             <em>{loggedInUser.username} logged in</em> <Logout />{' '}
           </>
         ) : (
-          <Link style={padding} to="/login">
-            login
-          </Link>
+          <NavbarLink to="/login">login</NavbarLink>
         )}
-      </div>
+      </Navbar>
 
       <Routes>
         <Route path="/users/:id" element={<User userinfo={user} />} />
