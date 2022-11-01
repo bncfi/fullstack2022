@@ -1,6 +1,5 @@
 const blogsRouter = require('express').Router()
 const Blog = require('../models/blog')
-//const User = require('../models/user')
 const jwt = require('jsonwebtoken')
 const userExtractor = require('../utils/middleware').userExtractor
 
@@ -63,6 +62,17 @@ blogsRouter.put('/:id', async (request, response) => {
   const updatedBlog = await Blog.findByIdAndUpdate(
     request.params.id,
     updatedData,
+    { new: true }
+  )
+  response.json(updatedBlog).status(200).end()
+})
+
+blogsRouter.post('/:id/comments', async (request, response) => {
+  const updatedComments = request.body
+
+  const updatedBlog = await Blog.findByIdAndUpdate(
+    request.params.id,
+    { $push: { comments: updatedComments.comment } },
     { new: true }
   )
   response.json(updatedBlog).status(200).end()

@@ -33,4 +33,13 @@ const deleteBlog = async (id) => {
   return response.data
 }
 
-export default { setToken, getAll, create, update, deleteBlog }
+const addComment = async (id, newComment) => {
+  console.log('toimiiko services')
+  const response = await axios.post(
+    baseUrl + '/' + id + '/comments',
+    newComment
+  )
+  return response.data
+}
+
+export default { setToken, getAll, create, update, deleteBlog, addComment }

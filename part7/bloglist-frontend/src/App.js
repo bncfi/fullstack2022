@@ -1,16 +1,12 @@
-import { useEffect, useRef } from 'react'
+import { useEffect } from 'react'
 import Login from './components/Login'
 import Logout from './components/Logout'
-import Newblog from './components/Newblog'
-import Togglable from './components/Togglable'
 import NotificationError from './components/NotificationError'
 import NotificationSuccess from './components/NotificationSuccess'
 import Allusers from './components/Allusers'
 import blogService from './services/blogs'
 import { useDispatch, useSelector } from 'react-redux'
-import { successSetter } from './reducers/successReducer'
-import { errorSetter } from './reducers/errorReducer'
-import { initializeBlogs, createBlogAction } from './reducers/blogsReducer'
+import { initializeBlogs } from './reducers/blogsReducer'
 import { setUser } from './reducers/usersReducer'
 import { Routes, Route, useMatch, Link, Navigate } from 'react-router-dom'
 import User from './components/User'
@@ -22,8 +18,6 @@ const App = () => {
   const padding = {
     padding: 5,
   }
-
-  const blogFormRef = useRef()
 
   const dispatch = useDispatch()
   const blogs = useSelector((state) => state.blogs)
@@ -54,21 +48,6 @@ const App = () => {
     }
   }, [])
 
-  const createBlog = async (newBlog) => {
-    try {
-      dispatch(createBlogAction(newBlog))
-      dispatch(
-        successSetter({
-          message: `New blog ${newBlog.title} by ${newBlog.author} was added`,
-          time: 5,
-        })
-      )
-      blogFormRef.current.toggleVisibility()
-    } catch (error) {
-      dispatch(errorSetter({ message: error.messsage, time: 5 }))
-    }
-  }
-
   return (
     <div>
       <NotificationError />
@@ -93,19 +72,7 @@ const App = () => {
           </Link>
         )}
       </div>
-      {loggedInUser === null ? (
-        <></>
-      ) : (
-        <div>
-          <Togglable
-            buttonLabelToShow="create new blog"
-            buttonLabelToHide="cancel"
-            ref={blogFormRef}
-          >
-            <Newblog createBlog={createBlog} />
-          </Togglable>
-        </div>
-      )}
+
       <Routes>
         <Route path="/users/:id" element={<User userinfo={user} />} />
         <Route path="/blogs/:id" element={<Singleblog blog={blog} />} />

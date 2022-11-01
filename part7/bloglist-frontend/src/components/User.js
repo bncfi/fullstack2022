@@ -4,6 +4,7 @@ const User = ({ userinfo }) => {
   if (!userinfo) {
     return null
   }
+  console.log('blogs for user', userinfo.username, ' ', userinfo.blogs.length)
   return (
     <div>
       <h2>{userinfo.username}</h2>

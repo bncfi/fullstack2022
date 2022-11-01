@@ -1,6 +1,7 @@
 import { useDispatch } from 'react-redux'
 import { updateBlogAction } from '../reducers/blogsReducer'
 import { errorSetter } from '../reducers/errorReducer'
+import Comments from './Comments'
 
 const Singleblog = ({ blog }) => {
   const dispatch = useDispatch()
@@ -11,6 +12,7 @@ const Singleblog = ({ blog }) => {
       dispatch(errorSetter({ message: error.messsage, time: 5 }))
     }
   }
+  console.log(blog)
 
   const handleLike = () => {
     const updatedBlog = {
@@ -22,6 +24,9 @@ const Singleblog = ({ blog }) => {
       user: blog.user.id,
     }
     updateBlog(blog.id, updatedBlog)
+  }
+  if (!blog) {
+    return <></>
   }
   return (
     <div>
@@ -36,6 +41,7 @@ const Singleblog = ({ blog }) => {
         </button>
       </div>
       <div>Added by {blog.user.username}</div>
+      <Comments blog={blog} />
     </div>
   )
 }
