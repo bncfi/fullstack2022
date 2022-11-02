@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom'
+//import { Link } from 'react-router-dom'
 import Togglable from './Togglable'
 import Newblog from './Newblog'
 import { useDispatch, useSelector } from 'react-redux'
@@ -6,7 +6,7 @@ import { successSetter } from '../reducers/successReducer'
 import { createBlogAction } from '../reducers/blogsReducer'
 import { errorSetter } from '../reducers/errorReducer'
 import { useRef } from 'react'
-import { Tablediv } from '../styles/Styles'
+import { Tablediv, Div, TabledivLink } from '../styles/Styles'
 
 const Bloglist = ({ blogs }) => {
   const blogFormRef = useRef()
@@ -31,7 +31,7 @@ const Bloglist = ({ blogs }) => {
       {loggedInUser === null ? (
         <></>
       ) : (
-        <div>
+        <Div>
           <Togglable
             buttonLabelToShow="create new blog"
             buttonLabelToHide="cancel"
@@ -39,14 +39,14 @@ const Bloglist = ({ blogs }) => {
           >
             <Newblog createBlog={createBlog} />
           </Togglable>
-        </div>
+        </Div>
       )}
-      <div>Number of blogs: {blogs.length}</div>
+
       {blogs.map((blog) => (
         <Tablediv key={blog.id}>
-          <Link to={`/blogs/${blog.id}`}>
+          <TabledivLink to={`/blogs/${blog.id}`}>
             {blog.title} by {blog.author}
-          </Link>
+          </TabledivLink>
         </Tablediv>
       ))}
     </div>

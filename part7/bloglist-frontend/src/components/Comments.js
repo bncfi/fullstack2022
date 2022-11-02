@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { commentBlogAction } from '../reducers/blogsReducer'
+import { Button, Title } from '../styles/Styles'
 
 const Comments = ({ blog }) => {
   const [comment, setComment] = useState('')
@@ -28,13 +29,14 @@ const Comments = ({ blog }) => {
             placeholder="comment"
             onChange={({ target }) => setComment(target.value)}
           />
-          <button id="submit-button" type="submit">
-            add comment
-          </button>
+
+          <Button id="submit-button" type="submit">
+            Add comment
+          </Button>
         </form>
       </div>
 
-      <h2>Comments</h2>
+      <Title>Comments</Title>
       <ul>
         {blog.comments.map((comment, index) => {
           return <li key={index}> {comment}</li>

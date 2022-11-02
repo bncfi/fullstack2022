@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import React, { useEffect } from 'react'
 import Login from './components/Login'
 import Logout from './components/Logout'
 import NotificationError from './components/NotificationError'
@@ -13,7 +13,7 @@ import User from './components/User'
 import Singleblog from './components/Singleblog'
 import Bloglist from './components/Bloglist'
 import Home from './components/Home'
-import { Navbar, NavbarLink } from './styles/Styles'
+import { Container, Navbar, NavbarLink } from './styles/Styles'
 
 const App = () => {
   const dispatch = useDispatch()
@@ -45,19 +45,20 @@ const App = () => {
   }, [])
 
   return (
-    <div>
+    <React.Fragment>
+      <Container />
       <NotificationError />
       <NotificationSuccess />
       <Navbar>
-        <NavbarLink to="/">home</NavbarLink>
-        <NavbarLink to="/blogs">blogs</NavbarLink>
-        <NavbarLink to="/users">users</NavbarLink>
+        <NavbarLink to="/">Home</NavbarLink>
+        <NavbarLink to="/blogs">Blogs</NavbarLink>
+        <NavbarLink to="/users">Users</NavbarLink>
         {loggedInUser ? (
           <>
             <em>{loggedInUser.username} logged in</em> <Logout />{' '}
           </>
         ) : (
-          <NavbarLink to="/login">login</NavbarLink>
+          <NavbarLink to="/login">Login</NavbarLink>
         )}
       </Navbar>
 
@@ -72,7 +73,7 @@ const App = () => {
           element={loggedInUser ? <Navigate replace to="/" /> : <Login />}
         />
       </Routes>
-    </div>
+    </React.Fragment>
   )
 }
 
