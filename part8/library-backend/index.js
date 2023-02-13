@@ -1,5 +1,26 @@
 const { ApolloServer, gql } = require('apollo-server')
-const { argsToArgsConfig } = require('graphql/type/definition')
+const { startStandaloneServer } = require('@apollo/server/standalone')
+const { GraphQLError } = require('graphql')
+const jwt = require('jsonwebtoken')
+
+const mongoose = require('mongoose')
+mongoose.set('strictQuery', false)
+const Author = require('./models/Author')
+const Book = require('./models/Book')
+require('dotenv').config()
+
+const MONGODB_URI = process.env.MONGODB_URI
+
+console.log('connecting to', MONGODB_URI)
+
+mongoose
+  .connect(MONGODB_URI)
+  .then(() => {
+    console.log('connected to MongoDB')
+  })
+  .catch((error) => {
+    console.log('error connection to MongoDB:', error.message)
+  })
 
 const { v1: uuid } = require('uuid')
 
@@ -185,6 +206,8 @@ const server = new ApolloServer({
   resolvers,
 })
 
-server.listen().then(({ url }) => {
+startStandaloneServer(server, {
+  listen: { port: 4000 },
+}).then(({ url }) => {
   console.log(`Server ready at ${url}`)
 })
