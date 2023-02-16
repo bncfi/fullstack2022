@@ -140,8 +140,18 @@ const resolvers = {
     addBook: async (root, args) => {
       console.log('testi: ', Author.find({ name: args.author }))
       if (!Author.find({ name: args.author })) {
-        const author = new Author({ name: args.author })
-        author.save()
+        try {
+          const author = new Author({ name: args.author })
+          author.save()
+        } catch (error) {
+          throw new GraphQLError('Saving author failed in add book', {
+            extensions: {
+              code: 'BAD_USER_INPUT',
+              invalidArgs: args.name,
+              error,
+            },
+          })
+        }
       }
       const author = Author.find({ name: args.author })
       console.log(author)
