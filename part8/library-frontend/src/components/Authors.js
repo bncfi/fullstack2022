@@ -35,7 +35,7 @@ const Authors = (props) => {
         </tbody>
       </table>
 
-      <Setyear authors={authors} />
+      <Setyear show={props.token != null} authors={authors} />
     </div>
   )
 }

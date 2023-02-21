@@ -284,6 +284,12 @@ const resolvers = {
       return foundBooks.length
     },
   },
+  Book: {
+    author: async (root) => {
+      const author = await Author.findOne({ _id: root.author })
+      return author
+    },
+  },
 }
 
 const server = new ApolloServer({
