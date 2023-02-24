@@ -267,7 +267,7 @@ const resolvers = {
         return Book.find({ author: author })
       }
       if (args.genre) {
-        return Book.find({ genres: [args.genre] })
+        return Book.find({ genres: args.genre })
       }
     },
     allAuthors: async () => {

@@ -26,7 +26,7 @@ const Books = (props) => {
     if (!booksQuery.loading) {
       bookFetch()
     }
-  }, [selectedGenre, booksLazyQuery, booksQuery])
+  }, [selectedGenre, booksLazyQuery, booksQuery, setGenre])
 
   if (booksQuery.loading) {
     return null
@@ -40,15 +40,6 @@ const Books = (props) => {
 
   const uniqueGenres = [...new Set(genres.flat())]
   uniqueGenres.push('all genres')
-
-  /*
-.filter((book) => {
-              if (selectedGenre === 'all genres') {
-                return book
-              }
-              return book.genres.includes(selectedGenre)
-            })
-*/
 
   return (
     <div>
