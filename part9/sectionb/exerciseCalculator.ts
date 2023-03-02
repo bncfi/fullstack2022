@@ -1,15 +1,18 @@
 const parseArray = (args: string[]): exerciseData => {
   if (args.length < 4) throw new Error('Not enough arguments')
 
-  const hours = args.slice(3).map((day) => {
+  const hours = args.slice(3).filter((day) => {
     const perDay = Number(day)
+    return typeof perDay === 'number'
+    /*
     if (!isNaN(perDay)) {
       return perDay
-    }
+    }*/
   })
+  console.log(hours)
 
-  const target = isNaN(Number(args[2])) ? null : Number(args[2])
-  if (!isNaN(Number(args[3]))) {
+  if (!isNaN(Number(args[2]))) {
+    const target = Number(Number(args[2]))
     return { hours, target }
   } else {
     throw new Error('Provided values were not numbers!')
@@ -40,7 +43,7 @@ const calculateExercise = (args: exerciseData): weekResults => {
       (accumulator: number, current: number) => accumulator + current
     ) / results.periodLength
 
-  const trainingDays = args.hours.filter((day: number) => day != 0)
+  //const trainingDays = args.hours.filter((day: number) => day != 0)
   results.success = results.avarage >= args.target ? true : false
   results.rating = results.success ? 5 : 0
   results.ratingDescription = results.success ? 'hyvin meni' : 'huonosti meni'
