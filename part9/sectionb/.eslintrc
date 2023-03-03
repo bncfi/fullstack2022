@@ -23,7 +23,7 @@
   },
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
-    "project": "tsconfig.json",
-    "tsconfigRootDir": "./"
+    "project": "./part9/sectionb/tsconfig.json",
+    "sourceType": "module"
   }
 }
