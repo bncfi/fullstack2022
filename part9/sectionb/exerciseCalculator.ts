@@ -1,7 +1,7 @@
-const parseArray = (args: string[]): exerciseData => {
+export const parseArray = (args: string[]): exerciseData => {
   if (args.length < 4) throw new Error("Not enough arguments");
 
-  const hours: number[] = args.slice(3).map((day) => {
+  const daily_exercises: number[] = args.slice(3).map((day) => {
     const perDay = parseFloat(day);
     if (typeof perDay === "number") {
       return perDay;
@@ -12,18 +12,18 @@ const parseArray = (args: string[]): exerciseData => {
 
   if (!isNaN(Number(args[2]))) {
     const target = Number(Number(args[2]));
-    return { hours, target };
+    return { daily_exercises, target };
   } else {
     throw new Error("Provided values were not numbers!");
   }
 };
 
-interface exerciseData {
-  hours: number[];
+export interface exerciseData {
+  daily_exercises: number[];
   target: number;
 }
 
-interface weekResults {
+export interface weekResults {
   periodLength: number;
   trainingDays: number;
   success: boolean;
@@ -33,12 +33,12 @@ interface weekResults {
   avarage: number;
 }
 
-const calculateExercise = (args: exerciseData): weekResults => {
+export const calculateExercise = (args: exerciseData): weekResults => {
   const results = {} as weekResults;
 
-  results.periodLength = args.hours.length;
+  results.periodLength = args.daily_exercises.length;
   results.avarage =
-    args.hours.reduce(
+    args.daily_exercises.reduce(
       (accumulator: number, current: number) => accumulator + current
     ) / results.periodLength;
 
