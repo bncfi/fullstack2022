@@ -14,7 +14,6 @@ export interface CourseInterface extends CoursePartBase {
 
   
   interface CoursePartBasic extends CourseInterface {
-    //description: string;
     kind: "basic"
   }
   
@@ -24,7 +23,6 @@ export interface CourseInterface extends CoursePartBase {
   }
   
   interface CoursePartBackround extends CourseInterface {
-    //description: string;
     backroundMaterial: string;
     kind: "background"
   }
