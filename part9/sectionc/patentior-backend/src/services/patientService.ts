@@ -22,6 +22,17 @@ const getEntries = (): NonSensitivePatientEntry[] => {
   });
 };
 
+const findOne = (id: string) => {
+  return patientData.find((patient) => {
+    if (patient.id === id) {
+      console.log("löyty");
+      return patient;
+    } else {
+      return null;
+    }
+  });
+};
+
 const addPatient = (entry: newPatient): patientType => {
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call
   const id: string = uuid();
@@ -45,4 +56,5 @@ const addPatient = (entry: newPatient): patientType => {
 export default {
   getEntries,
   addPatient,
+  findOne,
 };

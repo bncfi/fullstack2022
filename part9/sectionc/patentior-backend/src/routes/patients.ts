@@ -8,6 +8,11 @@ router.get("/", (_req, res) => {
   res.send(patientService.getEntries());
 });
 
+router.get("/:id", (req, res) => {
+  console.log(patientService.findOne(req.params.id));
+  res.send(patientService.findOne(req.params.id));
+});
+
 router.post("/", (req, res) => {
   try {
     console.log("postausta");
