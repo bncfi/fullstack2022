@@ -4,7 +4,6 @@ import toNewPatientEntry from "../utils/utils";
 const router = express.Router();
 
 router.get("/", (_req, res) => {
-  console.log("huhuu");
   res.send(patientService.getEntries());
 });
 

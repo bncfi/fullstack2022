@@ -37,7 +37,7 @@ export interface patientType {
   ssn: string;
   gender: Gender;
   occupation: string;
-  entries: Entry[];
+  entries: Array<Entry>;
 }
 
 export interface HospitalEntry extends BaseEntry {
@@ -72,7 +72,7 @@ export interface newPatient {
   ssn: string;
   gender: Gender;
   occupation: string;
-  entries: Entry[];
+  entries: Array<Entry>;
 }
 
 export enum Gender {

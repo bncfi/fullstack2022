@@ -4,7 +4,6 @@ import diagnoseService from "../services/diagnoseService";
 const router = express.Router();
 
 router.get("/", (_req, res) => {
-  console.log("huhuu");
   res.send(diagnoseService.getEntries());
 });
 
