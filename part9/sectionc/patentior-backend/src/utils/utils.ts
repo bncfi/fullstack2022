@@ -16,11 +16,11 @@ const isGender = (param: string): param is Gender => {
     .map((v) => v.toString())
     .includes(param);
 };
-/*
-const parseEntry = (param: unknown[]): Entry[] => {
+
+export const parseEntry = (param: unknown[]): Entry[] => {
   return param.map((entry) => entry as Entry);
 };
-*/
+
 export const parseGender = (gender: unknown): Gender => {
   if (!isString(gender) || !isGender(gender)) {
     throw new Error("Incorrect gender: " + gender);

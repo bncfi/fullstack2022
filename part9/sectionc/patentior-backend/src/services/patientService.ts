@@ -9,17 +9,21 @@ import { v1 as uuid } from "uuid";
 import { parseGender } from "../utils/utils";
 
 const getEntries = (): NonSensitivePatientEntry[] => {
-  return patientData.map(({ id, name, dateOfBirth, gender, occupation }) => {
-    const parsedGender: Gender = parseGender(gender);
-    const patient: NonSensitivePatientEntry = {
-      id: id,
-      name: name,
-      dateOfBirth: dateOfBirth,
-      gender: parsedGender,
-      occupation,
-    };
-    return patient;
-  });
+  return patientData.map(
+    ({ id, name, dateOfBirth, gender, occupation, entries }) => {
+      const parsedGender: Gender = parseGender(gender);
+      console.log(entries);
+      const patient: NonSensitivePatientEntry = {
+        id: id,
+        name: name,
+        dateOfBirth: dateOfBirth,
+        gender: parsedGender,
+        occupation,
+        entries: entries,
+      };
+      return patient;
+    }
+  );
 };
 
 const findOne = (id: string) => {
